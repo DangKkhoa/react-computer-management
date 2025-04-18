@@ -13,7 +13,7 @@ const Register = () => {
         backgroundImage: `url(${background})`
       }}
       >
-        <form action="" className='w-lg bg-white top-5 right-5 border border-gray-500 px-5 py-10 opacity-90 shadow-lg'>
+        <div className='w-lg bg-white top-5 right-5 border border-gray-500 px-5 py-10 opacity-90 shadow-lg'>
           <h1 className='text-2xl font-bold mb-4'>Create Account</h1>
           <div className='grid grid-cols-2 gap-4'>
           <Input 
@@ -50,7 +50,7 @@ const Register = () => {
 
           <button className='bg-blue-500 text-white px-4 py-2 hover:bg-blue-700 mb-4'>Register</button>
           <p>Already have an account? Click <a href="/login" className='text-blue-500 hover:underline'>here</a> to login.</p>
-        </form>
+        </div>
       </div>
     
   )

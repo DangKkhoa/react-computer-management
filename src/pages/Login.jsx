@@ -14,7 +14,7 @@ const Login = () => {
         backgroundImage: `url(${background})`
       }}
       >
-        <form action="" className='w-lg bg-white absolute top-5 right-5 border border-gray-500 px-5 py-10 opacity-80  shadow-lg'>
+        <form action="" className='w-lg bg-white absolute top-5 right-5 border border-gray-500 px-5 py-10 opacity-90  shadow-lg'>
           <h1 className='text-2xl font-bold mb-4'>Login</h1>
           <Input 
             type="text" 
