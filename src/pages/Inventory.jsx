@@ -243,23 +243,23 @@ const Inventory = () => {
           <table className='w-full text-nowrap min-w-96'>
             <thead>
               <tr>
-                <th className='border-b border-gray-300'>Product</th>
-                <th className='border-b border-gray-300'>Quantity</th>
-                <th className='border-b border-gray-300'>Price</th>
-                <th className='border-b border-gray-300'>Status</th>
-                <th className='border-b border-gray-300'>Action</th>
+                <th className='border-b border-gray-300 group'>Product</th>
+                <th className='border-b border-gray-300 group'>Quantity</th>
+                <th className='border-b border-gray-300 group'>Price</th>
+                <th className='border-b border-gray-300 group'>Status</th>
+                <th className='border-b border-gray-300 group'>Action</th>
               </tr>
             </thead>
             <tbody>
               {currentProducts.map(product => (
-                <tr key={product.id} className='hover:bg-gray-100 text-center'>
-                  <td className='border-b border-gray-300 py-4'>{product.name}</td>
-                  <td className='border-b border-gray-300 py-4'>{product.quantity}</td>
-                  <td className='border-b border-gray-300 py-4'>${product.price}</td>
-                  <td className='border-b border-gray-300 py-4'>
+                <tr key={product.id} className='group hover:shadow-[0px_-1px_10px_rgba(0,0,0,0.25)] transition-all duration-300 text-center'>
+                  <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.name}</td>
+                  <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.quantity}</td>
+                  <td className='border-b border-gray-300 py-4 group-hover:border-none'>${product.price}</td>
+                  <td className='border-b border-gray-300 py-4 group-hover:border-none'>
                     <span className={`p-2 ${product.isInStock ? "bg-gradient-to-bl from-green-200 to-white text-green-600" : "bg-gradient-to-br from-red-200 to-white text-red-600"}`}>{product.isInStock ? "In Stock" : "Out of Stock"}</span>
                   </td>
-                  <td className='border-b border-gray-300 py-4'>
+                  <td className='border-b border-gray-300 py-4 group-hover:border-0'>
                     <button className='text-blue-500  hover:text-blue-600 transition-all duration-200 hover:scale-110'><Eye /></button>
                     <button className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'><Trash /></button>
                   </td>

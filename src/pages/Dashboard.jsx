@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from "motion/react"
 import Header from '../components/Header'
 import DashboardCard from '../components/DashboardCard'
 import { Boxes, HandCoins, ShoppingCart, Users } from 'lucide-react'
@@ -67,8 +68,12 @@ const Dashboard = () => {
   return (
     <div>
       <Header title="Dashboard" />
-      <main className='p-6 w-full'> 
-        <div className='w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-6'>
+      <main className='py-6 px-8 lg:px-12 xl:px-20 max-w-7xl mx-auto'> 
+        <motion.div 
+          initial={{y: 20, opacity: 0}}
+          animate={{y: 0, opacity: 1}}
+          transition={{delay: .2}}
+          className='max-w-7xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-6'>
           {DASHBOARD.map(item => (
             <Link key={item.id} to={item.path}>
               <DashboardCard 
@@ -79,10 +84,14 @@ const Dashboard = () => {
               />
             </Link>
           ))}
-        </div>
+        </motion.div>
 
         {/* Revenue Chart and Top Products */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-10">
+        <motion.div 
+        initial={{y: 20, opacity: 0}}
+        animate={{y: 0, opacity: 1}}
+        transition={{delay: .4}}
+        className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-10">
           <div>
             <h2 className="text-xl font-semibold mb-4">Monthly Revenue</h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -119,7 +128,7 @@ const Dashboard = () => {
               </tbody>
             </table>
           </div>
-        </div>
+        </motion.div>
       </main>
     </div>
   )

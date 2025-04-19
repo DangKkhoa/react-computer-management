@@ -1,4 +1,5 @@
 import React from 'react'
+import { motion } from "motion/react"
 
 const DashboardCard = ({ title, content, icon:Icon, color }) => {
   const colorMap = {
@@ -7,13 +8,16 @@ const DashboardCard = ({ title, content, icon:Icon, color }) => {
     'bg-green-300': 'from-green-100',
     'bg-amber-300': 'from-amber-100'
   }
-  const bgClass = `bg-gradient-to-br ${colorMap[color] || 'from-blue-100'}  to-white shadow-md py-8 px-4`
+  const bgClass = `bg-gradient-to-br ${colorMap[color] || 'from-blue-100'} to-white py-8 px-4 border border-gray-300`
 
   return (
-    <div className={bgClass}>
-      <div className='flex items-center justify-between'>
+    <motion.div 
+      whileHover={{scale: 1.1, borderRadius: 15, boxShadow: "0 1px 30px -10px rgba(0, 0, 0, .25)"}}
+      transition={{duration: .2}}
+      className={bgClass}>
+      <div className='flex items-center'>
         <div>
-          <h2 className='text-xl font-semibold mb-4 whitespace-nowrap'>{title}</h2>
+          <h2 className='text-lg xl:text-xl font-semibold mb-4 whitespace-nowrap'>{title}</h2>
           <p className='text-gray-700'>{content}</p>
         </div>
 
@@ -22,7 +26,7 @@ const DashboardCard = ({ title, content, icon:Icon, color }) => {
         </div>
         
       </div>
-    </div>
+    </motion.div>
   )
 }
 

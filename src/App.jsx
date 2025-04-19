@@ -1,5 +1,7 @@
 import React from 'react'
-import { Routes, Route } from 'react-router'
+import { Routes, Route, useLocation } from 'react-router'
+import { AnimatePresence } from 'motion/react'
+
 import Login from './pages/Login'
 import Home from './pages/Home'
 import Register from './pages/Register'
@@ -17,16 +19,19 @@ import Shop from './pages/Shop'
 
 
 const App = () => {
+
+  const location = useLocation();
+
   return (
+    
     <div className='h-screen inset-0 bg-gradient-to-br from-sky-100  via-white to-sky-100'>
-      
-      <Routes>
+    
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Shop />} />
         <Route path="/login" element={<Login />} />
         <Route path="/customer/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         {/* <Route path="*" element={<NotFound />} /> */}
-
         <Route 
           path="/dashboard" 
           element={
@@ -76,8 +81,7 @@ const App = () => {
           }
         />
       </Routes>
-
-      
+    
     </div>
     
   )

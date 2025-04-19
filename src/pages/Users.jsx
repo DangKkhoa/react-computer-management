@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+
 import Header from '../components/Header'
 import UserCard from '../components/UserCard'
 import Search from '../components/Search'
@@ -85,6 +87,8 @@ const Users = () => {
     const updatedUsers = USERS.filter(user => user.id !== selectedUser.id);
     setFilteredUsers(updatedUsers);
     setIsModalOpen(false);
+
+    
   }
   const handleCancelDelete = () => {
     setIsModalOpen(false);
@@ -93,7 +97,12 @@ const Users = () => {
 
 
   return (
-    <div>
+    <div
+      // initial={{y: 100, opacity: 0}}
+      // animate={{y: 0, opacity: 1}}
+      // exit={{y: 100, opacity: 0}}
+      // transition={{duration: .3}}
+    >
       <Header title="Users" />
       <main className='mt-6 p-6 w-full'>
         <div className='mb-6 flex items-center gap-4'>
@@ -109,15 +118,18 @@ const Users = () => {
           />
         </div>
         <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
-          {filteredUsers.map(user => (
-            <UserCard 
-              id={user.id}
-              name={user.name}
-              role={user.role}
-              email={user.email}
-              isActive={user.isActive}
-              deleteUser={handleDeleteUser}/>
-          ))}
+         
+            {filteredUsers.map(user => (
+              <UserCard 
+                key={user.id}
+                id={user.id}
+                name={user.name}
+                role={user.role}
+                email={user.email}
+                isActive={user.isActive}
+                deleteUser={handleDeleteUser}/>
+            ))}
+          
         </div>
 
         {isModalOpen && (

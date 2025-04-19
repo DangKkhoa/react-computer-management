@@ -45,7 +45,7 @@ const Sidebar = () => {
                   </div>
                 )}
                 {/* {!isSidebarOpen && (<Tooltip content={item.name} />)} */}
-                <span className={`ml-2 ${!isSidebarOpen ? "opacity-0 delay-150" : "opacity-100 "} whitespace-nowrap`}>{item.name}</span>
+                <span className={`ml-2 ${!isSidebarOpen ? "opacity-0" : "opacity-100"} delay-100 whitespace-nowrap`}>{item.name}</span>
             </NavLink>
           ))}
         </nav>
