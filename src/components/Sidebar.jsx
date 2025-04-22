@@ -1,5 +1,6 @@
 import { Boxes, ChartArea, ChartGantt, Menu, ShoppingBag, ShoppingCart, UserCheck, Users } from 'lucide-react'
 import React, { useState } from 'react'
+import { motion } from 'motion/react'
 import { NavLink } from 'react-router'
 import Tooltip from './Tooltip'
 
@@ -23,15 +24,18 @@ const Sidebar = () => {
   }
 
   return (
-
-    <div 
+    <motion.div 
       className={`relative h-screen w-20 md:w-64  border-r border-gray-300 shadow-xl ${isSidebarOpen && "overflow-hidden"} p-4 transition-all duration-300 ease-in-out `}
-      style={{width: isSidebarOpen ? "256px" : "80px"}}>
-        <button className=''>
-          <Menu 
-            size={24}
-            onClick={handleSidebarToggle}/>
-        </button>
+      style={{width: isSidebarOpen ? "256px" : "80px"}}
+      animate={{width: isSidebarOpen ? "256px" : "80px"}}>
+        <motion.button 
+          className='hover:bg-sky-200 rounded-full p-2 '
+          whileTap={{scale: 0.9}}
+          whileHover={{scale: 1.1}}
+          onClick={handleSidebarToggle}
+        >
+          <Menu size={24} />
+        </motion.button>
         <nav className='text-md '>
           {navItems.map(item => (
             <NavLink 
@@ -45,11 +49,11 @@ const Sidebar = () => {
                   </div>
                 )}
                 {/* {!isSidebarOpen && (<Tooltip content={item.name} />)} */}
-                <span className={`ml-2 ${!isSidebarOpen ? "opacity-0" : "opacity-100"} delay-100 whitespace-nowrap`}>{item.name}</span>
+                <span className={`ml-2 ${!isSidebarOpen ? "opacity-0" : "opacity-100"} delay-300 whitespace-nowrap`}>{item.name}</span>
             </NavLink>
           ))}
         </nav>
-    </div>
+    </motion.div>
   )
 }
 

@@ -205,7 +205,7 @@ const Inventory = () => {
   return (
     <div>
       <Header title="Inventory"/>
-      <main className='mt-6 p-6 w-full'>
+      <main className='mt-4 p-6 w-full'>
         <div className='flex justify-between items-center mb-6'>
           <div className='flex items-center gap-4'>
             <Search 

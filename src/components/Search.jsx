@@ -3,7 +3,8 @@ import React from 'react'
 const Search = ({ placeholder, data, setData }) => {
   const searchFunction = (e) => {
     const value = e.target.value.toLowerCase();
-    const filteredData = data.filter(item => item.name.toLowerCase().includes(value) || item.id.toString().includes(value));
+    
+    const filteredData = data.filter(item => item.name && item.name.toLowerCase().includes(value) || item.id && item.id.toString().includes(value));
     setData(filteredData);
   }
   return (
