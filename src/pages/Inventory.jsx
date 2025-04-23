@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import Header from '../components/Header'
 import Input from '../components/Input'
-import { ChevronLeft, ChevronRight, Eye, PackagePlus, Trash } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, PackagePlus, Trash2 } from 'lucide-react'
 import Search from '../components/Search'
 import Button from '../components/Button'
+import Modal from '../components/Modal'
 
 const PRODUCTS = [
   {
@@ -191,6 +192,9 @@ const Inventory = () => {
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
+  const [selectedProduct, setSelectedProduct] = useState({id: 0, name: ""});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   
 
   const searchProducts = (e) => {
@@ -201,6 +205,24 @@ const Inventory = () => {
     const searchResults = PRODUCTS.filter(product => product.name.toLowerCase().includes(term));
     setFilteredProducts(searchResults);
   }
+
+  const onDeleteClick = (id, name) => {
+    setSelectedProduct({id, name});
+    setIsModalOpen(true);
+  }
+
+  const handleConfirmDelete = () => {
+    const updatedProducts = filteredProducts.filter(product => product.id !== selectedProduct.id);
+    setFilteredProducts(updatedProducts);
+    setSelectedProduct({id: 0, name: ""});
+    setIsModalOpen(false);
+  }
+  const handleCancelDelete = () => {
+    setSelectedProduct({id: 0, name: ""});
+    setIsModalOpen(false);
+  }
+
+
 
   return (
     <div>
@@ -261,14 +283,28 @@ const Inventory = () => {
                   </td>
                   <td className='border-b border-gray-300 py-4 group-hover:border-0'>
                     <button className='text-blue-500  hover:text-blue-600 transition-all duration-200 hover:scale-110'><Eye /></button>
-                    <button className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'><Trash /></button>
+                    <button 
+                      className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'
+                      onClick={() => onDeleteClick(product.id, product.name)}
+                    >
+                        <Trash2 />
+                    </button>
                   </td>
                 </tr>
               ))} 
             </tbody>
           </table>
         </div>
-        
+        {isModalOpen && (
+          <Modal 
+            isOpen={isModalOpen}
+            title="Delete Product"
+            message={`Are you sure you want to delete ${selectedProduct.name}?`}
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+            onClose={() => setIsModalOpen(false)}
+          />
+        )}
       </main>
     </div>
   )

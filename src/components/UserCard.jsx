@@ -8,14 +8,19 @@ const UserCard = ({ ...props }) => {
 
   return (
     <motion.div   
-      whileHover={{borderRadius: 15}}
+      // whileHover={{borderRadius: 15}}
       transition={{duration: .1}}
       className="group relative bg-white text-sm text-center border border-gray-300 transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg">
-      <button 
-        className="absolute top-2 right-2 opacity-0 text-red-500 hover:scale-110 group-hover:opacity-100 transition duration-300"
-        onClick={() => props.deleteUser(props.id, props.name)}>
+      
+      <div className="absolute top-2 right-2 opacity-0 text-red-500 hover:scale-110 group-hover:opacity-100 transition duration-300"
+      >
+        <button 
+          onClick={() => props.deleteUser(props.id, props.name)}
+        >
           <Trash2 />
-      </button>
+        </button>
+      </div>
+      
       <div className='p-4'>
         <div 
           className='bg-cover bg-no-repeat w-24 h-24 rounded-full mb-4 mx-auto' 

@@ -15,6 +15,7 @@ import Customers from './pages/Customers'
 import Users from './pages/Users'
 import SaleHistory from './pages/SaleHistory'
 import Shop from './pages/Shop'
+import Profile from './pages/Profile'
 // import NotFound from './pages/NotFound'
 
 
@@ -69,6 +70,14 @@ const App = () => {
           element={
             <MainLayout>
               <Users />
+            </MainLayout>
+          }
+        />
+        <Route 
+          path="/users/:userId" 
+          element={
+            <MainLayout>
+              <Profile />
             </MainLayout>
           }
         />

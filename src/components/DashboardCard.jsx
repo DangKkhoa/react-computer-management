@@ -12,7 +12,7 @@ const DashboardCard = ({ title, content, icon:Icon, color }) => {
 
   return (
     <motion.div 
-      whileHover={{scale: 1.1, borderRadius: 15, boxShadow: "0 1px 30px -10px rgba(0, 0, 0, .25)"}}
+      whileHover={{scale: 1.1, borderRadius: 15, boxShadow: "0 1px 30px -10px rgba(0, 0, 0, .25)", zIndex: 1}}
       transition={{duration: .2}}
       className={bgClass}>
       <div className='flex items-center'>

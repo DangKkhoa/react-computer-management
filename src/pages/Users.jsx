@@ -7,6 +7,7 @@ import Search from '../components/Search'
 import Modal from '../components/Modal'
 import Button from '../components/Button'
 import { UserPlus } from 'lucide-react'
+import { Outlet } from 'react-router'
 
 
 const USERS = [
@@ -142,6 +143,7 @@ const Users = () => {
             onCancel={handleCancelDelete}
           />
         )}
+        
       </main>
     </div>
   )
