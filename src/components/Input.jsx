@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Input = ({type, placeholder, id, label, value, onChange}) => {
+const Input = ({type, placeholder, id, name, label, value, onChange}) => {
   const [isVisible, setIsVisible] = useState(false);
   const togglePasswordVisibility = () => {
     setIsVisible(prev => !prev);
@@ -17,6 +17,7 @@ const Input = ({type, placeholder, id, label, value, onChange}) => {
         type={inputType}
         placeholder={placeholder}
         id={id}
+        name={name}
         value={value}
         onChange={onChange}/> 
       {type === 'password' && (
