@@ -11,7 +11,7 @@ const Login = () => {
     document.title = 'Login'
   }, [])
 
-  const { user, login } = useContext(AuthContext);
+  const { user, login, isLoading } = useContext(AuthContext);
   const [input, setInput] = useState({
     username: '',
     password: ''
@@ -20,7 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if(user) {
-      navigate('/dashboard');
+      user.role === 'ADMIN' ?  navigate('/dashboard') : navigate('/profile');
     }
   }, [user, navigate]);
 
@@ -33,6 +33,16 @@ const Login = () => {
 
     const res = await login(input.username, input.password);
     console.log(res);
+    if(isLoading) {
+      return <div className='p-6 text-center text-gray-800 text-lg'>Loading...</div>
+    }
+    if(res.status === 'failed') {
+      alert(res.message);
+      return;
+    }
+    if(res.status === 'success') {
+      res.data.role === 'ADMIN' ?  navigate('/dashboard') : navigate('/orders');
+    }
   }
 
   const handleInputChange = (e) => {

@@ -27,7 +27,7 @@ const UserCard = ({ ...props }) => {
         <p className="text-gray-600 mb-2">{props.email}</p>
         <div className='flex justify-center items-center gap-4'>
           <button className="bg-gradient-to-tl from-sky-300 to-white px-4 py-2 hover:scale-110 transition-all duration-300">View</button>
-          <button className='bg-gradient-to-tr from-amber-300 to-white px-4 py-2 hover:scale-110 trasition-all duration-300'>{props.isActive ? "Lock" : "Unlock"}</button>
+          <button className='bg-gradient-to-tr from-amber-300 to-white px-4 py-2 hover:scale-110 trasition-all duration-300'>{!props.isLocked ? "Lock" : "Unlock"}</button>
         </div>
       </div>
       

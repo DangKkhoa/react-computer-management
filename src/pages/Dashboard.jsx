@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from "motion/react"
 import Header from '../components/Header'
 import DashboardCard from '../components/DashboardCard'
@@ -65,6 +65,9 @@ const topProducts = [
 ]
 
 const Dashboard = () => {
+  useEffect(() => {
+    document.title = "Dashboard - Admin Panel";
+  })
   return (
     <div>
       <Header title="Dashboard" />

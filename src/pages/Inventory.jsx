@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import Input from '../components/Input'
 import { ChevronLeft, ChevronRight, Eye, PackagePlus, Trash } from 'lucide-react'
@@ -181,6 +181,10 @@ const PRODUCTS = [
 ]
 
 const Inventory = () => {
+
+  useEffect(() => {
+    document.title = "Inventory" ;
+  }, [])
 
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredProducts, setFilteredProducts] = useState(PRODUCTS);

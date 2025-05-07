@@ -1,20 +1,24 @@
 import { Boxes, ChartArea, ChartGantt, Menu, ShoppingBag, ShoppingCart, UserCheck, Users } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { NavLink } from 'react-router'
 import Tooltip from './Tooltip'
+import { AuthContext } from '../context/AuthContext'
 
 
 const navItems = [
   {path: "/", name: "Shop", icon: ShoppingBag, active: false, roles: ["*"]},
   {path: "/dashboard", name: "Dashboard", icon: ChartArea, active: false, roles: ["ADMIN"]},
-  {path: "/orders", name: "Orders", icon: ShoppingCart, active: false, roles: ["ADMIN", "SALEPERSON"]},
-  {path: "/inventory", name: "Inventory", icon: Boxes, active: false, roles: ["ADMIN", "SALEPERSON"]},
-  {path: "/customers", name: "Customers", icon: Users, active: false, roles: ["ADMIN", "SALEPERSON"]},
+  {path: "/orders", name: "Orders", icon: ShoppingCart, active: false, roles: ["ADMIN", "SALESPERSON"]},
+  {path: "/inventory", name: "Inventory", icon: Boxes, active: false, roles: ["ADMIN", "SALESPERSON"]},
+  {path: "/customers", name: "Customers", icon: Users, active: false, roles: ["ADMIN", "SALESPERSON"]},
   {path: "/users", name: "Users", icon: UserCheck, active: false, roles: ["ADMIN"]},
   {path: "/sale-history", name: "Sale History", icon: ChartGantt, active: false, roles: ["ADMIN", "ACCOUNTANT"]},
 ]
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -33,21 +37,23 @@ const Sidebar = () => {
             onClick={handleSidebarToggle}/>
         </button>
         <nav className='text-md '>
-          {navItems.map(item => (
-            <NavLink 
-              to={item.path}
-              className={({isActive}) => "group flex mt-2 px-2 py-4 " + (isActive ? "bg-gradient-to-bl from-sky-200 to-gray-100 text-gray-700" : "hover:bg-sky-200")}
-            >
-                {<item.icon size={24} style={{minWidth: "24px"}} />}
-                {!isSidebarOpen && (
-                  <div className=' hidden group-hover:block z-1000'> 
-                    <Tooltip content={item.name} />
-                  </div>
-                )}
-                {/* {!isSidebarOpen && (<Tooltip content={item.name} />)} */}
-                <span className={`ml-2 ${!isSidebarOpen ? "opacity-0" : "opacity-100"} delay-100 whitespace-nowrap`}>{item.name}</span>
-            </NavLink>
-          ))}
+          {user && navItems.map(item => {
+            if(item.roles.includes("*") || item.roles.includes(user.role)) {
+              return (<NavLink 
+                to={item.path}
+                className={({isActive}) => "group flex mt-2 px-2 py-4 " + (isActive ? "bg-gradient-to-bl from-sky-200 to-gray-100 text-gray-700" : "hover:bg-sky-200")}
+              >
+                  {<item.icon size={24} style={{minWidth: "24px"}} />}
+                  {!isSidebarOpen && (
+                    <div className=' hidden group-hover:block z-1000'> 
+                      <Tooltip content={item.name} />
+                    </div>
+                  )}
+                  {/* {!isSidebarOpen && (<Tooltip content={item.name} />)} */}
+                  <span className={`ml-2 ${!isSidebarOpen ? "opacity-0" : "opacity-100"} delay-100 whitespace-nowrap`}>{item.name}</span>
+              </NavLink>) 
+            }
+          })}
         </nav>
     </div>
   )

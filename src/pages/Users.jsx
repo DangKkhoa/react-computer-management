@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 
 import Header from '../components/Header'
 import UserCard from '../components/UserCard'
@@ -69,25 +69,60 @@ const USERS = [
 ]
 
 const Users = () => {
-  const [filteredUsers, setFilteredUsers] = useState(USERS);
+  useEffect(() => {
+    document.title = "Users";
+  }, [])
+
+  const [users, setUsers] = useState([]);
+
+  const [filteredUsers, setFilteredUsers] = useState(users);
   const [selectedUser, setSelectedUser] = useState({id: null, name: ''});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleDeleteUser = (id, name) => {
-    // const updatedUsers = filteredUsers.filter(user => user.id !== id);
-    // setFilteredUsers(updatedUsers);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await axios.get('http://localhost:3000/api/v1/users', {
+          withCredentials: true
+        });
+        setUsers(res.data.users);
+        setFilteredUsers(res.data.users);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
 
+    fetchUsers(); 
+  }, [])
+
+  const handleDeleteUser = (id, name) => {
     setSelectedUser({id, name});
     
     setIsModalOpen(true);
   }
 
-  const handleConfirmDelete = () => {
-    const updatedUsers = USERS.filter(user => user.id !== selectedUser.id);
-    setFilteredUsers(updatedUsers);
-    setIsModalOpen(false);
+  const handleConfirmDelete = async () => {
 
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/v1/users/${selectedUser.id}`, {
+        withCredentials: true
+      });
+      console.log(res.data);
+      if(res.status === 200) {
+        const updatedUsers = users.filter(user => user.id !== selectedUser.id);
+        setFilteredUsers(updatedUsers);
+        alert('User deleted successfully');
+      }
+      else {
+        alert('Something went wrong while deleting the user');
+      }
+    }
+    catch(err) {
+      console.error(err);
+      alert('Something went wrong while deleting the user');
+    }
+    setIsModalOpen(false);
     
   }
   const handleCancelDelete = () => {
@@ -97,18 +132,13 @@ const Users = () => {
 
 
   return (
-    <div
-      // initial={{y: 100, opacity: 0}}
-      // animate={{y: 0, opacity: 1}}
-      // exit={{y: 100, opacity: 0}}
-      // transition={{duration: .3}}
-    >
+    <div>
       <Header title="Users" />
       <main className='mt-6 p-6 w-full'>
         <div className='mb-6 flex items-center gap-4'>
           <Search 
             placeholder="Search users by name or ID"
-            data={USERS}
+            data={users}
             setData={setFilteredUsers}
           />
           <Button 
@@ -123,10 +153,10 @@ const Users = () => {
               <UserCard 
                 key={user.id}
                 id={user.id}
-                name={user.name}
+                name={user.firstname + ' ' + user.lastname}
                 role={user.role}
                 email={user.email}
-                isActive={user.isActive}
+                isLocked={user.is_locked}
                 deleteUser={handleDeleteUser}/>
             ))}
           

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Routes, Route, useLocation } from 'react-router'
-import { AnimatePresence } from 'motion/react'
 
 import Login from './pages/Login'
 import Home from './pages/Home'
@@ -15,6 +14,8 @@ import Customers from './pages/Customers'
 import Users from './pages/Users'
 import SaleHistory from './pages/SaleHistory'
 import Shop from './pages/Shop'
+import RoleRoute from './route/RoleRoute'
+import Unauthorized from './pages/Unauthorized'
 // import NotFound from './pages/NotFound'
 
 
@@ -31,53 +32,66 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/customer/register" element={<Register />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         {/* <Route path="*" element={<NotFound />} /> */}
         <Route 
           path="/dashboard" 
           element={
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN"]}>
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+            </RoleRoute>
           }
         />
         <Route 
           path="/orders" 
           element={
-            <MainLayout>
-              <Orders />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN", "SALESPERSON"]}>
+              <MainLayout>
+                <Orders />
+              </MainLayout>
+            </RoleRoute>
           }
         />
         <Route 
           path="/inventory" 
           element={
-            <MainLayout>
-              <Inventory />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN", "SALESPERSON"]}>
+              <MainLayout>
+                <Inventory />
+              </MainLayout>
+            </RoleRoute>
           }
         />
         <Route 
           path="/customers" 
           element={
-            <MainLayout>
-              <Customers />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN", "SALESPERSON"]}>
+              <MainLayout>
+                <Customers />
+              </MainLayout>
+            </RoleRoute>
           }
         />
         <Route 
           path="/users" 
           element={
-            <MainLayout>
-              <Users />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN"]}>
+              <MainLayout>
+                <Users />
+              </MainLayout>
+            </RoleRoute>
           }
         />
         <Route 
           path="/sale-history" 
           element={
-            <MainLayout>
-              <SaleHistory />
-            </MainLayout>
+            <RoleRoute allowRoles={["ADMIN", "ACCOUNTANT"]}>
+              <MainLayout>
+                <SaleHistory />
+              </MainLayout>
+            </RoleRoute>
           }
         />
       </Routes>
