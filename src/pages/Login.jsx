@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 
 const Login = () => {
   useEffect(() => {
-    document.title = 'Login';
+    document.title = 'Login'
   }, [])
 
   const { user, login, isLoading } = useContext(AuthContext);
