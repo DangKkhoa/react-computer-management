@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 
 const Login = () => {
   useEffect(() => {
-    document.title = 'Login'
+    document.title = 'Login';
   }, [])
 
   const { user, login, isLoading } = useContext(AuthContext);
@@ -32,7 +32,6 @@ const Login = () => {
     }
 
     const res = await login(input.username, input.password);
-    console.log(res);
     if(isLoading) {
       return <div className='p-6 text-center text-gray-800 text-lg'>Loading...</div>
     }
@@ -51,7 +50,6 @@ const Login = () => {
       ...input,
       [name]: value
     });
-    console.log(value);
   }
 
 
