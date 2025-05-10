@@ -10,12 +10,15 @@ const RoleRoute = ({ children, allowRoles }) => {
     return <div className='p-6 text-center text-gray-800 text-lg'>Loading...</div>
   }
 
-  if(!user) {
-    // console.log("User not found");
-    return <Navigate to="/login" />
-  }
+  console.log(user);
+  // if(!user && isLoading) {
+  //   console.log("User not found");
+  //   // return <Navigate to="/login" />
+  //   return <div className='p-6 text-center text-gray-800 text-lg'>Loading...</div>
+  //   // return <Navigate to="/unauthorized" />
+  // }
 
-  if(!allowRoles.includes(user.role)) {
+  if(user && !allowRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" />
   }
 

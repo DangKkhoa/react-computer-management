@@ -1,5 +1,5 @@
 import { Boxes, ChartArea, ChartGantt, Menu, ShoppingBag, ShoppingCart, UserCheck, Users } from 'lucide-react'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { NavLink } from 'react-router'
 import Tooltip from './Tooltip'
 import { AuthContext } from '../context/AuthContext'
@@ -20,10 +20,9 @@ const Sidebar = () => {
   const { user } = useContext(AuthContext);
   console.log(user);
 
+
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
-    console.log("Sidebar toggled", isSidebarOpen);
-    
   }
 
   return (

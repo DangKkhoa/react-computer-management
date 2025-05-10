@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 
 const Login = () => {
   useEffect(() => {
-    document.title = 'Login'
+    document.title = 'Login';
   }, [])
 
   const { user, login, isLoading } = useContext(AuthContext);
@@ -19,10 +19,20 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log(user)
     if(user) {
-      user.role === 'ADMIN' ?  navigate('/dashboard') : navigate('/profile');
+      console.log(user);
+      if(user.role === 'ADMIN') {
+        navigate('/dashboard');
+      }
+      else if(user.role === 'SALESPERSON') {
+        navigate('/orders');
+      }
+      else if(user.role === 'ACCOUNTANT') {
+        navigate('/sale-history');
+      }
     }
-  }, [user, navigate]);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,17 +41,33 @@ const Login = () => {
       return;
     }
 
+    // const res = await login(input.username, input.password);
     const res = await login(input.username, input.password);
-    if(isLoading) {
-      return <div className='p-6 text-center text-gray-800 text-lg'>Loading...</div>
-    }
-    if(res.status === 'failed') {
-      alert(res.message);
-      return;
-    }
+
+    // if(isLoading) {
+    //   console.log("Loading");
+    //   return;
+    // }
+
+    // if(res.status === 'failed') {
+    //   alert(res.message);
+    //   return;
+    // }
+
+
+
     if(res.status === 'success') {
-      res.data.role === 'ADMIN' ?  navigate('/dashboard') : navigate('/orders');
+      if(res.data.role === 'ADMIN') {
+        console.log('CLMMMMMMM');
+        navigate('/dashboard');
+      }
+      else {
+        console.log('DMMMMMM');
+        navigate('/orders');
+      }
+
     }
+
   }
 
   const handleInputChange = (e) => {

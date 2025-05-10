@@ -16,12 +16,17 @@ export const AuthProvider = ({ children }) => {
         password,
       }, { withCredentials: true });
 
-      setUser(res.data.user);
-      localStorage.setItem("token", res.data.token);
-      return res.data;
+      console.log(res.data);
+      if(res.data.status === 'success') {
+        setUser(res.data.data);
+        console.log(res.data);
+        return res.data;
+      }
+
     }
     catch(err) {
       console.error(err)
+      setIsLoading(false);
       return { status: 'failed', message: err.response?.data?.message || err.message }
     }
     finally {
@@ -29,27 +34,27 @@ export const AuthProvider = ({ children }) => {
     }
   }
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   const logout = async () => {
-    setUser(null);
+
     try {
       const res = await axios.post('http://localhost:3000/api/v1/auth/logout', {}, {
         withCredentials: true
       });
-
-      if(res.status === 200) {
-        navigate('/login');
-      }
-      else {
-        alert('Something went wrong while logging out');
-      }
     }
     catch(err) {
       console.log(err);
-      navigate('/login');
+    }
+    finally {
+      setUser(null);
     }
   }
 
   useEffect(() => {
+
     axios.get("http://localhost:3000/api/v1/auth/me", {
       withCredentials: true
     })
@@ -59,11 +64,12 @@ export const AuthProvider = ({ children }) => {
       })
       .catch(err => {
         console.error(err);
-        logout();
+        setUser(null);
+        navigate('/login');
       })
       .finally(() => { 
         setIsLoading(false);
-      })
+      });
   }, [])
 
   return (
