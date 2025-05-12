@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 
-const Input = ({type, placeholder, id, name, label, value, onChange}) => {
+const Input = ({type, placeholder, id, name, labelClass, inputClass, label, value, onChange}) => {
   const [isVisible, setIsVisible] = useState(false);
+
+  
   const togglePasswordVisibility = () => {
     setIsVisible(prev => !prev);
   }
@@ -11,9 +13,9 @@ const Input = ({type, placeholder, id, name, label, value, onChange}) => {
 
   return (
     <div className='mb-4 relative'>
-      <label htmlFor={id} className='block mb-1 w-fit'>{label}</label>
+      <label htmlFor={id} className={`block mb-1 w-fit ${labelClass}`}>{label}</label>
       <input 
-        className='w-full py-1 pl-2 pr-6 outline-none ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-500'
+        className={`w-full py-1 px-2 outline-none ring-1 ring-gray-300 focus:ring-2 focus:ring-blue-500 ${inputClass}`}
         type={inputType}
         placeholder={placeholder}
         id={id}

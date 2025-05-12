@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, Eye, PackagePlus, Trash } from 'lucide-react
 import Search from '../components/Search'
 import Button from '../components/Button'
 import axios from 'axios'
-import { Outlet, useParams } from 'react-router'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 
 const PRODUCTS = [
   {
@@ -185,6 +185,8 @@ const PRODUCTS = [
 const Inventory = () => {
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
   
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [products, setProducts] = useState([]);
@@ -230,7 +232,7 @@ const Inventory = () => {
     
     console.log(term);
     
-    const searchResults = PRODUCTS.filter(product => product.name.toLowerCase().includes(term));
+    const searchResults =products.filter(product => product.name.toLowerCase().includes(term));
     setFilteredProducts(searchResults);
   }
 
@@ -244,7 +246,7 @@ const Inventory = () => {
             <div className='flex items-center gap-4'>
               <Search 
                 placeholder="Search products by name or ID"
-                data={PRODUCTS}
+                data={products}
                 setData={setFilteredProducts}
               />
               {/* <button className='text-blue-500'><PackagePlus /></button> */}
@@ -252,6 +254,7 @@ const Inventory = () => {
                 icon={<PackagePlus />}
                 className={"text-blue-500"}
                 tooltip={"Add Product"}
+                onClick={() => navigate('/inventory/add')}
               />
             </div>
             <div className='flex items-center'>
@@ -289,7 +292,7 @@ const Inventory = () => {
                   <tr key={product.id} className='group hover:shadow-[0px_-1px_10px_rgba(0,0,0,0.25)] transition-all duration-300 text-center'>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.name}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.quantity}</td>
-                    <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.retailed_price}</td>
+                    <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.retailed_price.toLocaleString()}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>
                       <span className={`p-2 ${product.quantity > 0 ? "bg-gradient-to-bl from-green-200 to-white text-green-600" : "bg-gradient-to-br from-red-200 to-white text-red-600"}`}>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</span>
                     </td>
