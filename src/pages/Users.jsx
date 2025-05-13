@@ -9,68 +9,11 @@ import Button from '../components/Button'
 import { UserPlus } from 'lucide-react'
 
 
-const USERS = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    role: 'ADMIN',
-    isActive: true,
-  },
-  {
-    id: 2,
-    name: 'Jane Smith',
-    email: 'jane.smith@example.com', 
-    role: 'SALEPERSON',
-    isActive: true,
-  }, 
-  {
-    id: 3,
-    name: 'Alice Johnson',
-    email: 'alice.johnson@email.com',
-    role: 'SALEPERSON',
-    isActive: true,
-  },
-  {
-    id: 4,
-    name: 'Bob Brown',
-    email: 'bob.brown@email.com',
-    role: 'SALEPERSON',
-    isActive: true,
-  },
-  {
-    id: 5,
-    name: 'Marry Jane',
-    email: 'marry.jane@email.com',
-    role: 'ACCOUNTANT',
-    isActive: true,
-  },
-  {
-    id: 6,
-    name: 'Diana White',
-    email: 'diana.white@email.com',
-    role: 'ACCOUNTANT',
-    isActive: true,
-  },
-  {
-    id: 7,
-    name: 'Eve Green',
-    email: 'eve.green@email.com',
-    role: 'SALEPERSON',
-    isActive: true,
-  },
-  {
-    id: 8,
-    name: 'Frank Blue',
-    email: 'frank.blue@email.com',
-    role: 'SALEPERSON',
-    isActive: true,
-  }
-]
+
 
 const Users = () => {
   useEffect(() => {
-    document.title = "Users";
+    document.title = "Nhân viên";
   }, [])
 
   const [users, setUsers] = useState([]);
@@ -98,7 +41,6 @@ const Users = () => {
 
   const handleDeleteUser = (id, name) => {
     setSelectedUser({id, name});
-    
     setIsModalOpen(true);
   }
 
@@ -133,7 +75,7 @@ const Users = () => {
 
   return (
     <div>
-      <Header title="Users" />
+      <Header title="Nhân Viên" />
       <main className='mt-6 p-6 w-full'>
         <div className='mb-6 flex items-center gap-4'>
           <Search 

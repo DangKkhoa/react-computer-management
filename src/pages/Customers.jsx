@@ -4,7 +4,7 @@ import Header from '../components/Header'
 const Customers = () => {
   return (
     <div>
-      <Header title="Customers"/>
+      <Header title="Khách hàng"/>
     </div>
   )
 }

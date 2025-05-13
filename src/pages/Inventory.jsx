@@ -4,6 +4,7 @@ import Input from '../components/Input'
 import { ChevronLeft, ChevronRight, Eye, PackagePlus, Trash } from 'lucide-react'
 import Search from '../components/Search'
 import Button from '../components/Button'
+import Modal from '../components/Modal'
 import axios from 'axios'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 
@@ -183,9 +184,7 @@ const PRODUCTS = [
 ]
 
 const Inventory = () => {
-
   const { id } = useParams();
-
   const navigate = useNavigate();
   
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -208,7 +207,6 @@ const Inventory = () => {
         alert("Error fetching products");
       }
     }
-
     fetchProducts();
   }, [])
 
@@ -216,17 +214,18 @@ const Inventory = () => {
     setFilteredProducts(products);
   }, [products])
 
-
   const [currentPage, setCurrentPage] = useState(1);
-  // const [searchTerm, setSearchTerm] = useState("");
   const itemsPerPage = 15;
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
+  const [prompt, setPrompt] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   
-
+  
   const searchProducts = (e) => {
     const term = e.target.value.toLowerCase();
     
@@ -236,16 +235,52 @@ const Inventory = () => {
     setFilteredProducts(searchResults);
   }
 
+  const submitPrompt = () => {
+    axios.post('http://localhost:3000/api/v1/ai/products', { prompt }, { withCredentials: true })
+  }
+
+  const handleDeleteProduct = (id, name) => {
+    setSelectedProduct({id, name});
+    setIsModalOpen(true);
+  }
+
+  const handleConfirmDelete = async () => {
+
+    try {
+      const res = await axios.delete(`http://localhost:3000/api/v1/products/${selectedProduct.id}`, {
+        withCredentials: true
+      });
+      console.log(res.data);
+      if(res.status === 200) {
+        const updatedProducts = products.filter(p => p.id !== selectedProduct.id);
+        setFilteredProducts(updatedProducts);
+        alert('Product deleted successfully');
+      }
+      else {
+        alert('Something went wrong while deleting the product');
+      }
+    }
+    catch(err) {
+      console.error(err);
+      alert('Something went wrong while deleting the product');
+    }
+    setIsModalOpen(false);
+    
+  }
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+  }
+
   return (
     <div>
-      <Header title="Inventory"/>
+      <Header title="Quản lí kho"/>
 
       {id ? <Outlet /> : 
         <main className='mt-6 p-6 w-full'>
           <div className='flex justify-between items-center mb-6'>
             <div className='flex items-center gap-4'>
               <Search 
-                placeholder="Search products by name or ID"
+                placeholder="Nhập tên / id sản phẩm"
                 data={products}
                 setData={setFilteredProducts}
               />
@@ -256,6 +291,16 @@ const Inventory = () => {
                 tooltip={"Add Product"}
                 onClick={() => navigate('/inventory/add')}
               />
+              <div>
+                <input 
+                  type="text" 
+                  placeholder='Điển prompt...'
+                  value={prompt}
+                  onChange={() => setPrompt(e.target.value)}
+                  className='ring-1 ring-gray-300 p-2 w-96 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+                />
+                <button onClick={submitPrompt}>TÌm</button>
+              </div>
             </div>
             <div className='flex items-center'>
               <button 
@@ -280,11 +325,11 @@ const Inventory = () => {
             <table className='w-full text-nowrap min-w-96'>
               <thead>
                 <tr>
-                  <th className='border-b border-gray-300 group'>Product</th>
-                  <th className='border-b border-gray-300 group'>Quantity</th>
-                  <th className='border-b border-gray-300 group'>Price</th>
-                  <th className='border-b border-gray-300 group'>Status</th>
-                  <th className='border-b border-gray-300 group'>Action</th>
+                  <th className='border-b border-gray-300 group'>Tên sàn phẩm</th>
+                  <th className='border-b border-gray-300 group'>Số lượng</th>
+                  <th className='border-b border-gray-300 group'>Giá bán</th>
+                  <th className='border-b border-gray-300 group'>Trạng thái</th>
+                  <th className='border-b border-gray-300 group'>Hành động</th>
                 </tr>
               </thead>
               <tbody>
@@ -294,18 +339,31 @@ const Inventory = () => {
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.quantity}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.retailed_price.toLocaleString()}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>
-                      <span className={`p-2 ${product.quantity > 0 ? "bg-gradient-to-bl from-green-200 to-white text-green-600" : "bg-gradient-to-br from-red-200 to-white text-red-600"}`}>{product.quantity > 0 ? "In Stock" : "Out of Stock"}</span>
+                      <span className={`p-2 ${product.quantity > 0 ? "bg-gradient-to-bl from-green-200 to-white text-green-600" : "bg-gradient-to-br from-red-200 to-white text-red-600"}`}>{product.quantity > 0 ? "Còn hàng" : "Hết hàng"}</span>
                     </td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-0 flex items-center justify-center'>
                       <a href={`/inventory/${product.id}`} className='text-blue-500  hover:text-blue-600 transition-all duration-200 hover:scale-110'><Eye /></a>
-                      <button className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'><Trash /></button>
+                      <button 
+                        className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'
+                        onClick={() => handleDeleteProduct(product.id, product.name)}>
+                          <Trash />
+                      </button>
                     </td>
                   </tr>
                 ))} 
               </tbody>
             </table>
           </div>
-          
+          {isModalOpen && (
+            <Modal 
+              isOpen={isModalOpen}
+              title="Xóa sản phẩm"
+              message={`Xóa sản phẩm ${selectedProduct.name} ${selectedProduct.id} ra khỏi hệ thống ?`}
+              onClose={() => setIsModalOpen(false)}
+              onConfirm={handleConfirmDelete}
+              onCancel={handleCancelDelete}
+            />
+          )}
         </main>
       }
     </div>

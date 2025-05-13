@@ -8,18 +8,17 @@ import { AuthContext } from '../context/AuthContext'
 const navItems = [
   {path: "/", name: "Shop", icon: ShoppingBag, active: false, roles: ["*"]},
   {path: "/dashboard", name: "Dashboard", icon: ChartArea, active: false, roles: ["ADMIN"]},
-  {path: "/orders", name: "Orders", icon: ShoppingCart, active: false, roles: ["ADMIN", "SALESPERSON"]},
-  {path: "/inventory", name: "Inventory", icon: Boxes, active: false, roles: ["ADMIN", "SALESPERSON"]},
-  {path: "/customers", name: "Customers", icon: Users, active: false, roles: ["ADMIN", "SALESPERSON"]},
-  {path: "/users", name: "Users", icon: UserCheck, active: false, roles: ["ADMIN"]},
-  {path: "/sale-history", name: "Sale History", icon: ChartGantt, active: false, roles: ["ADMIN", "ACCOUNTANT"]},
+  {path: "/orders", name: "Đơn hàng", icon: ShoppingCart, active: false, roles: ["ADMIN", "SALESPERSON"]},
+  {path: "/inventory", name: "Quản lí kho", icon: Boxes, active: false, roles: ["ADMIN", "SALESPERSON"]},
+  {path: "/customers", name: "Khách hàng", icon: Users, active: false, roles: ["ADMIN", "SALESPERSON"]},
+  {path: "/users", name: "Nhân viên", icon: UserCheck, active: false, roles: ["ADMIN"]},
+  {path: "/sale-history", name: "Lịch sử mua bán", icon: ChartGantt, active: false, roles: ["ADMIN", "ACCOUNTANT"]},
 ]
 const Sidebar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const { user } = useContext(AuthContext);
-  console.log(user);
-
+  // console.log(user);
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,7 +34,7 @@ const Sidebar = () => {
             size={24}
             onClick={handleSidebarToggle}/>
         </button>
-        <nav className='text-md '>
+        <nav className='text-md font-semibold '>
           {user && navItems.map(item => {
             if(item.roles.includes("*") || item.roles.includes(user.role)) {
               return (<NavLink 

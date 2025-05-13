@@ -18,6 +18,10 @@ const RoleRoute = ({ children, allowRoles }) => {
   //   // return <Navigate to="/unauthorized" />
   // }
 
+  if(!user) {
+    return <Navigate to="/login" />
+  }
+
   if(user && !allowRoles.includes(user.role)) {
     return <Navigate to="/unauthorized" />
   }

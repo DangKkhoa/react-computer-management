@@ -16,10 +16,10 @@ export const AuthProvider = ({ children }) => {
         password,
       }, { withCredentials: true });
 
-      console.log(res.data);
+      // console.log(res.data);
       if(res.data.status === 'success') {
         setUser(res.data.data);
-        console.log(res.data);
+        // console.log(res.data);
         return res.data;
       }
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log(user);
+    // console.log(user);
   }, [user]);
 
   const logout = async () => {
@@ -60,12 +60,12 @@ export const AuthProvider = ({ children }) => {
     })
       .then(res => {
         setUser(res.data.user);
-        console.log(res.data.user);
+        // console.log(res.data.user);
       })
       .catch(err => {
         console.error(err);
         setUser(null);
-        navigate('/login');
+        // navigate('/login');
       })
       .finally(() => { 
         setIsLoading(false);

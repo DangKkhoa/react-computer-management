@@ -19,6 +19,7 @@ import Unauthorized from './pages/Unauthorized'
 import ProductDetail from './pages/ProductDetail'
 import { AuthContext, AuthProvider } from './context/AuthContext'
 import AddProduct from './pages/AddProduct'
+import Profile from './pages/Profile'
 // import NotFound from './pages/NotFound'
 
 
@@ -105,6 +106,16 @@ const App = () => {
               <RoleRoute allowRoles={["ADMIN", "ACCOUNTANT"]}>
                 <MainLayout>
                   <SaleHistory />
+                </MainLayout>
+              </RoleRoute>
+            }
+          />
+          <Route 
+            path="/profile" 
+            element={
+              <RoleRoute allowRoles={["ADMIN", "ACCOUNTANT", "SALESPERSON"]}>
+                <MainLayout>
+                  <Profile />
                 </MainLayout>
               </RoleRoute>
             }

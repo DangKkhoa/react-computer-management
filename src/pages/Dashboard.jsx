@@ -9,7 +9,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const DASHBOARD = [
   {
     id: 1,
-    title: 'Total Users',
+    title: 'Nhân viên',
     content: 100,
     icon: Users,
     path: "/users",
@@ -17,7 +17,7 @@ const DASHBOARD = [
   },
   {
     id: 2,
-    title: 'Total Products',
+    title: 'Tổng sản phẩm',
     content: 200,
     icon: Boxes,
     path: "/inventory",
@@ -25,7 +25,7 @@ const DASHBOARD = [
   },
   {
     id: 3,
-    title: 'Total Orders',
+    title: 'Tổng đơn hàng',
     content: 150,
     icon: ShoppingCart,
     path: "/orders",
@@ -33,7 +33,7 @@ const DASHBOARD = [
   },
   {
     id: 4,
-    title: 'Total Revenue',
+    title: 'Doanh thu',
     content: '$5000',
     icon: HandCoins,
     path: "/sale-history",
@@ -96,7 +96,7 @@ const Dashboard = () => {
         transition={{delay: .4}}
         className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-10">
           <div>
-            <h2 className="text-xl font-semibold mb-4">Monthly Revenue</h2>
+            <h2 className="text-xl font-semibold mb-4">Doanh thu theo tháng</h2>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={revenueData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -111,7 +111,7 @@ const Dashboard = () => {
               
 
           <div>
-            <h2 className="text-xl font-semibold mb-4">Top 5 Best-Selling Products</h2>
+            <h2 className="text-xl font-semibold mb-4">Top 5 sản phảm bán chạy</h2>
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="border-b border-gray-300">
