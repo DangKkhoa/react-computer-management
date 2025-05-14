@@ -22,13 +22,13 @@ const Header = ({ title, children }) => {
     console.log("Dropdown toggled", isDropDownOpened);
   }
   return (
-    <header className='w-full p-5 shadow-md border-b border-gray-300 flex justify-between items-center'>
+    <header className='sticky top-0 z-10 bg-transparent backdrop-blur-lg w-full p-5 shadow-md border-b border-gray-300 flex justify-between items-center'>
       <h1 className='text-3xl font-bold'>{title}</h1>
       <div className='flex items-center'>
         {children}
         {user && (
           <NavLink to="/profile" className='text-gray-800 text-lg ml-4 flex items-center hover:underline'>
-            <div className='w-10 h-10 bg-cover bg-center bg-no-repeat rounded-full' style={{backgroundImage:`url(http://localhost:3000/uploads/${user.image})`}}></div>
+            <div className='w-10 h-10 bg-cover bg-center bg-no-repeat rounded-full' style={{backgroundImage:`url(http://localhost:3000/uploads/users/${user.image})`}}></div>
             <span className='ml-4 font-semibold'>
               {user.firstname + " " + user.lastname}
             </span>

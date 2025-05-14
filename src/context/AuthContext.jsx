@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(res.data);
       if(res.data.status === 'success') {
         setUser(res.data.data);
-        // console.log(res.data);
+        console.log(res.data.data);
         return res.data;
       }
 
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

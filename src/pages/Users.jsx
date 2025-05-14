@@ -17,7 +17,6 @@ const Users = () => {
   }, [])
 
   const [users, setUsers] = useState([]);
-
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [selectedUser, setSelectedUser] = useState({id: null, name: ''});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -45,7 +44,6 @@ const Users = () => {
   }
 
   const handleConfirmDelete = async () => {
-
     try {
       const res = await axios.delete(`http://localhost:3000/api/v1/users/${selectedUser.id}`, {
         withCredentials: true
@@ -65,13 +63,45 @@ const Users = () => {
       alert('Something went wrong while deleting the user');
     }
     setIsModalOpen(false);
-    
   }
+
   const handleCancelDelete = () => {
     setIsModalOpen(false);
   }
-  
 
+  const lockUser = async (id) => {
+    try {
+      const res = await axios.patch(`http://localhost:3000/api/v1/users/${id}/lock`, {
+        is_locked: 1
+      }, { withCredentials: true });
+
+      if(res.status === 200) {
+        alert('Khóa thành công');
+        window.location.reload();
+      }
+    }
+    catch(err) {
+      console.error(err);
+      alert("Có lỗi khi khóa user");
+    }
+  }
+
+  const unLockUser = async (id) => {
+    try {
+      const res = await axios.patch(`http://localhost:3000/api/v1/users/${id}/unlock`, {
+        is_locked: 0
+      }, { withCredentials: true });
+
+      if(res.status === 200) {
+        alert('Đã mở khóa');
+        window.location.reload();
+      }
+    }
+    catch(err) {
+      console.error(err);
+      alert("Có lỗi xảy ra khi mở khóa");
+    }
+  }
 
   return (
     <div>
@@ -90,7 +120,6 @@ const Users = () => {
           />
         </div>
         <div className='w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
-         
             {filteredUsers.map(user => (
               <UserCard 
                 key={user.id}
@@ -99,16 +128,17 @@ const Users = () => {
                 role={user.role}
                 email={user.email}
                 isLocked={user.is_locked}
-                deleteUser={handleDeleteUser}/>
+                deleteUser={handleDeleteUser}
+                lockUser={() => lockUser(user.id)}
+                unLockUser={() => unLockUser(user.id)}/>
             ))}
-          
         </div>
 
         {isModalOpen && (
           <Modal 
             isOpen={isModalOpen}
             title="Delete User"
-            message={`Delete ${selectedUser.name} from the system?`}
+            message={`Xóa ${selectedUser.name} khỏi hệ thống ?`}
             onClose={() => setIsModalOpen(false)}
             onConfirm={handleConfirmDelete}
             onCancel={handleCancelDelete}

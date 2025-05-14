@@ -20,6 +20,7 @@ import ProductDetail from './pages/ProductDetail'
 import { AuthContext, AuthProvider } from './context/AuthContext'
 import AddProduct from './pages/AddProduct'
 import Profile from './pages/Profile'
+import { ToastContainer } from 'react-toastify'
 // import NotFound from './pages/NotFound'
 
 
@@ -121,6 +122,7 @@ const App = () => {
             }
           />
         </Routes>
+        <ToastContainer /> 
       </AuthProvider>
     </div>
     

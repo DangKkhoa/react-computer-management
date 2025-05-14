@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import Header from '../components/Header'
 import Input from '../components/Input'
-import { m } from 'motion/react'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
+import { ToastContainer, toast } from 'react-toastify';
 
 const AddProduct = () => {
   const [newProduct, setNewProduct] = useState({
@@ -42,14 +42,26 @@ const AddProduct = () => {
         { withCredentials: true }
       );
 
-      if(res.status === 200) {
-        alert('Product added successfully');
-        navigate('/inventory');
+      if(res.status === 201) {
+        // alert('Product added successfully');
+        toast.success("Thêm sản phẩm thành công", {
+          position: 'top-right',
+          autoClose: 2000,
+          closeOnClick: true,
+          // transition: Bounce,
+        })
+        // setNewProduct(null);
+        setTimeout(() => navigate("/inventory"), 2000);
       }
     }
     catch(err) {
       console.error(err.response?.data?.message);
-      alert(err.response?.data?.message);
+      toast.error(err.response?.data?.message, {
+        hideProgressBar: true,
+        autoClose: 2000,
+        position: 'top-right'
+
+      });
     }
 
   }
@@ -68,8 +80,9 @@ const AddProduct = () => {
                 name="id"
                 value={newProduct.id}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
+
               />
             </div>
             <div>
@@ -81,7 +94,7 @@ const AddProduct = () => {
                 name="name"
                 value={newProduct.name}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
               />
             </div>
@@ -95,7 +108,7 @@ const AddProduct = () => {
                 name="imported_price"
                 value={newProduct.imported_price}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
               />
             </div>
@@ -109,7 +122,7 @@ const AddProduct = () => {
                 name="retailed_price"
                 value={newProduct.retailed_price}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
               />
             </div>
@@ -122,7 +135,7 @@ const AddProduct = () => {
                 name="quantity"
                 value={newProduct.quantity}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
               />
             </div>
@@ -130,13 +143,13 @@ const AddProduct = () => {
               <div>
                 <label htmlFor="category" className='block mb-1 text-lg font-semibold'>Loại sản phẩm</label>
                 <select 
-                name="category" 
-                id="category"
-                value={newProduct.category}
-                onChange={handleInputChange} 
-                className='w-full border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-sky-300 rounded-0'>
+                  name="category" 
+                  id="category"
+                  value={newProduct.category}
+                  onChange={handleInputChange} 
+                  className='w-full border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-sky-300 rounded-0'>
                     <option value="">Chọn loại</option>
-                    <option value="Laptop/Office/Văn Phóng">Laptop văn phòng</option>
+                    <option value="Laptop/Office/Văn Phòng">Laptop văn phòng</option>
                     <option value="PC/Desktop">PC / Máy tình bàn</option>
                     <option value="Laptop/Gaming">Laptop gaming</option>
                     <option value="Laptop/Macbook">Macbook</option>
@@ -172,7 +185,7 @@ const AddProduct = () => {
                 name="cpu"
                 value={newProduct.cpu}
                 labelClass='text-lg font-semibold'
-                inputClass='py-2 text-md focus:ring-sky-300'
+                inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                 onChange={handleInputChange}
               />
             </div>  
@@ -185,7 +198,7 @@ const AddProduct = () => {
                   name="screen"
                   value={newProduct.screen}
                   labelClass='text-lg font-semibold'
-                  inputClass='py-2 text-md focus:ring-sky-300'
+                  inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                   onChange={handleInputChange}
                 />
               </div>
@@ -237,7 +250,7 @@ const AddProduct = () => {
                   name="gpu"
                   value={newProduct.gpu}
                   labelClass='text-lg font-semibold'
-                  inputClass='py-2 text-md focus:ring-sky-300'
+                  inputClass='w-full p-2 text-md ring-1 ring-gray-200 outline-none focus:ring-2 focus:ring-sky-300'
                   onChange={handleInputChange}
                 />
               </div>
@@ -259,6 +272,7 @@ const AddProduct = () => {
           <button 
             className='float-right mb-8 bg-green-500 px-2 py-4 text-gray-100 font-semibold hover:bg-green-600'>Xác nhận</button>
         </form>
+        <ToastContainer />
       </main>
     </div>
   )

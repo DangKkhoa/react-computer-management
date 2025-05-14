@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
 
     <div 
-      className={`relative h-screen w-20 md:w-64  border-r border-gray-300 shadow-xl ${isSidebarOpen && "overflow-hidden"} p-4 transition-all duration-300 ease-in-out `}
+      className={`relative h-screen w-20 md:w-64 bg-white  border-r border-gray-300 shadow-xl ${isSidebarOpen && "overflow-hidden"} p-4 transition-all duration-300 ease-in-out `}
       style={{width: isSidebarOpen ? "256px" : "80px"}}>
         <button className=''>
           <Menu 
@@ -39,7 +39,7 @@ const Sidebar = () => {
             if(item.roles.includes("*") || item.roles.includes(user.role)) {
               return (<NavLink 
                 to={item.path}
-                className={({isActive}) => "group flex mt-2 px-2 py-4 " + (isActive ? "bg-gradient-to-bl from-sky-200 to-gray-100 text-gray-700" : "hover:bg-sky-200")}
+                className={({isActive}) => "group flex mt-2 px-2 py-4 " + (isActive ? "bg-gradient-to-bl bg-sky-100 text-gray-700" : "hover:bg-sky-100")}
               >
                   {<item.icon size={24} style={{minWidth: "24px"}} />}
                   {!isSidebarOpen && (

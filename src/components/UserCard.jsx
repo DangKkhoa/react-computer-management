@@ -2,10 +2,10 @@ import React from 'react'
 import { motion } from 'motion/react'
 
 import userImg from '../assets/user-default.png'
-import { Eye, Trash2 } from 'lucide-react'
+import { Eye, Trash2, Lock, LockOpen } from 'lucide-react'
 
 const UserCard = ({ ...props }) => {
-
+  
   return (
     <motion.div   
       whileHover={{borderRadius: 15}}
@@ -26,8 +26,24 @@ const UserCard = ({ ...props }) => {
         <p className="text-gray-600 mb-2">{props.role}</p>
         <p className="text-gray-600 mb-2">{props.email}</p>
         <div className='flex justify-center items-center gap-4'>
-          <button className="bg-gradient-to-tl from-sky-300 to-white px-4 py-2 hover:scale-110 transition-all duration-300">View</button>
-          <button className='bg-gradient-to-tr from-amber-300 to-white px-4 py-2 hover:scale-110 trasition-all duration-300'>{!props.isLocked ? "Lock" : "Unlock"}</button>
+          <button className="bg-gradient-to-tl bg-sky-400  px-3 py-2 hover:bg-sky-500 transition-all duration-300 flex items-center font-semibold"><Eye className='mr-2'/> Xem</button>
+          <button 
+            className='bg-gradient-to-tr bg-amber-400 px-3 py-2 hover:bg-amber-500 transition-all duration-300 flex items-center text-nowrap font-semibold'
+            onClick={() => props.isLocked ? props.unLockUser() : props.lockUser()}>
+              {!props.isLocked ? 
+                (
+                  <>
+                    <Lock className='mr-2'/> Khóa
+                  </>
+                )
+                :
+                (
+                  <>
+                    <LockOpen className='mr-2'/> Mở khóa
+                  </>
+                )
+              }
+          </button>
         </div>
       </div>
       

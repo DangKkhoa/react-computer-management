@@ -43,7 +43,7 @@ const ProductDetail = () => {
       {product ? <main className='mt-2 p-6 w-full'>
         <div className='grid grid-cols-2'>
           <div>
-            <h2 className='text-xl font-semibold'>{product.name} {product.id}</h2>
+            <h2 className='text-xl font-semibold'>{product.name}</h2>
             <img src={`http://localhost:3000/uploads/${product.image}`} alt="" className='w-64'/>
             <input type="file" />
           </div>

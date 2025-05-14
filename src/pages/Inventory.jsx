@@ -7,6 +7,7 @@ import Button from '../components/Button'
 import Modal from '../components/Modal'
 import axios from 'axios'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
+import { toast, ToastContainer } from 'react-toastify'
 
 const PRODUCTS = [
   {
@@ -254,15 +255,24 @@ const Inventory = () => {
       if(res.status === 200) {
         const updatedProducts = products.filter(p => p.id !== selectedProduct.id);
         setFilteredProducts(updatedProducts);
-        alert('Product deleted successfully');
+        toast.success('Xóa sản phẩm thành công', {
+          hideProgressBar: true,
+          autoClose: 2000
+        });
       }
       else {
-        alert('Something went wrong while deleting the product');
+        toast.success('Có lỗi khi xóa sản phẩm. Vui lòng thử lại sau', {
+          hideProgressBar: true,
+          autoClose: 2000
+        });
       }
     }
     catch(err) {
       console.error(err);
-      alert('Something went wrong while deleting the product');
+      toast.success('Có lỗi khi xóa sản phẩm. Vui lòng thử lại sau', {
+          hideProgressBar: true,
+          autoClose: 2000
+        });
     }
     setIsModalOpen(false);
     
@@ -317,7 +327,9 @@ const Inventory = () => {
                 onClick={() => setCurrentPage(prev => prev + 1)}
               >
                 <ChevronRight />
+                
               </button>
+              
             </div>
               
           </div>
@@ -325,23 +337,23 @@ const Inventory = () => {
             <table className='w-full text-nowrap min-w-96'>
               <thead>
                 <tr>
-                  <th className='border-b border-gray-300 group'>Tên sàn phẩm</th>
-                  <th className='border-b border-gray-300 group'>Số lượng</th>
-                  <th className='border-b border-gray-300 group'>Giá bán</th>
-                  <th className='border-b border-gray-300 group'>Trạng thái</th>
-                  <th className='border-b border-gray-300 group'>Hành động</th>
+                  <th className='border-b border-gray-300 group text-left py-4'>Tên sàn phẩm</th>
+                  <th className='border-b border-gray-300 group text-left py-4'>Số lượng</th>
+                  <th className='border-b border-gray-300 group text-left py-4'>Giá bán</th>
+                  <th className='border-b border-gray-300 group text-left py-4'>Trạng thái</th>
+                  <th className='border-b border-gray-300 group text-left py-4'>Hành động</th>
                 </tr>
               </thead>
               <tbody>
                 {currentProducts.map(product => (
-                  <tr key={product.id} className='group hover:shadow-[0px_-1px_10px_rgba(0,0,0,0.25)] transition-all duration-300 text-center'>
+                  <tr key={product.id} className='group hover:shadow-[0px_-1px_10px_rgba(0,0,0,0.25)] transition-all duration-300'>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.name}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.quantity}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>{product.retailed_price.toLocaleString()}</td>
                     <td className='border-b border-gray-300 py-4 group-hover:border-none'>
                       <span className={`p-2 ${product.quantity > 0 ? "bg-gradient-to-bl from-green-200 to-white text-green-600" : "bg-gradient-to-br from-red-200 to-white text-red-600"}`}>{product.quantity > 0 ? "Còn hàng" : "Hết hàng"}</span>
                     </td>
-                    <td className='border-b border-gray-300 py-4 group-hover:border-0 flex items-center justify-center'>
+                    <td className='border-b border-gray-300 py-4 group-hover:border-0 flex items-center'>
                       <a href={`/inventory/${product.id}`} className='text-blue-500  hover:text-blue-600 transition-all duration-200 hover:scale-110'><Eye /></a>
                       <button 
                         className='text-red-500 hover:text-red-600 ml-2 transition-all duration-200 hover:scale-110'
@@ -358,12 +370,13 @@ const Inventory = () => {
             <Modal 
               isOpen={isModalOpen}
               title="Xóa sản phẩm"
-              message={`Xóa sản phẩm ${selectedProduct.name} ${selectedProduct.id} ra khỏi hệ thống ?`}
+              message={`Xóa sản phẩm ${selectedProduct.name} ra khỏi hệ thống ?`}
               onClose={() => setIsModalOpen(false)}
               onConfirm={handleConfirmDelete}
               onCancel={handleCancelDelete}
             />
           )}
+          <ToastContainer />
         </main>
       }
     </div>
